@@ -21,11 +21,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $errores[] = "El campo opinion es obligatorio";
     if ($genero == "")
         $errores[] = "El campo genero es obligatorio";
+    if ($color == "")
+        $errores[] = "El campo genero es obligatorio";
     if (!empty($errores)):
         foreach ($errores as $error):
             echo $error;
         endforeach;
-    else: echo "Usuario $usuario, email $email, contraseña $contraseña y opinion $opinion";
+    else: echo "Usuario $usuario, email $email, contraseña $contraseña, color $color y opinion $opinion";
     endif;
 }
 
@@ -49,6 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <p>Genero:</p>
             <p><input type="radio" name="genero" value = "hombre"> Hombre </p>
             <p><input type="radio" name="genero" value = "mujer"> Mujer </p>
+            <p> Color Favorito: <input type="color" value= "<?= $color?>"></p>
             <h4>Marque la casillas:</h4>
             <div>
                 
@@ -61,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <label for="publicidad">Marque para aceptar las politicas y condiciones de la pagina web</label>
             </div>
              
-            <p>Opinión sobre nuestra pagina web:<textarea cols="25" rows="3" placeholder="Introuce tu opinión..." maxlength="15" size="50px"></textarea>> </textarea>
+            <p>Opinión sobre nuestra pagina web:<textarea cols="25" rows="3" placeholder="Introuce tu opinión..." maxlength="15" size="50px"></textarea></p> 
             <form method="post" action="/send/">
                 Selecciona la opción deseada:
                 <select>
