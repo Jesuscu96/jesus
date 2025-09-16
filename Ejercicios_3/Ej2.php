@@ -1,7 +1,7 @@
 <?php
 //Mostrar errores
-ini_set('displays_errors');
-error_reporting(E_ALL);
+/* ini_set('displays_errors');
+error_reporting(E_ALL); */
 ?>
 <?php
 function test_input($data) {
@@ -12,24 +12,19 @@ function test_input($data) {
 }
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
-    $fruit = $_POST["fruta"] ?? "";
+    $fruit = $_POST["fruit"] ?? "";
     if ($fruit == "")
         $errores[] = "El seleciona al menos una fruta";
     if (!empty($errores)):
         foreach ($errores as $error):
             echo $error;
         endforeach;
-    else: echo "Fruta $fruta";
+    else: echo "Fruta $fruit";
     endif;
 }
 $frutas = ["naranja", "manzana", "platano", "pera", "uva"];
 
-if (isset($_POST['fruta'])){
-    echo "Tu fruta favorita es:" . $_POST['fruta'];
-    if (empty($_POST['fruta'])){
-        echo "No has seleccionado ninguna fruta.";
-    }
-} 
+
 ?>
 
 <!DOCTYPE html>
@@ -40,26 +35,29 @@ if (isset($_POST['fruta'])){
     <title>Formulario de Frutas</title>
 </head>
 <body>
-    
+    <?php 
+   
+    if (isset($_POST['enviarformularios'])){
+        echo "<br>Tu fruta favorita es: " . $_POST['fruit'];
+        echo '<br><a href="./Ej2.php">Inicio</a>';
+        if (empty($_POST['fruit'])){
+            echo "No has seleccionado ninguna fruta.";
+        }
+    }   
+    ?> 
     <h1>Frutas</h1>
-        <form action="enviarmail.php" method="post">
+        <form action="Ej2.php" method="post">
             
-               
             
-            <form method="post" action="/send/">
-                <p>Selecciona la opción deseada:</p>
-                <select>
-                    <?php foreach ($frutas as $fruta):?>
-                        <option value="<?=$fruta?>"> <?=$fruta?> </option>
-                    <?php endforeach;?>
-                    
-                </select>
-                </form>
-                        
-            
-
-            
-            <p><input type="submit" name="enviarformularios" value="Enviar formulario"></p>
+            <p>Selecciona la opción deseada:</p>
+            <select name ="fruit">
+                <?php foreach ($frutas as $fruta):?>
+                    <option  value="<?=$fruta?>"> <?=$fruta?> </option>
+                <?php endforeach;?>
+                
+            </select>
+                
+            <p><input type="submit" name="enviarformularios" value="Enviarformulario"></p>
             <!-- <div>
                 <input type="color" id="head" name="head" value="" />
                 <label for="head">Head</label>
