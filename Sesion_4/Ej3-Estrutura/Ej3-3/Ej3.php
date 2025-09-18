@@ -32,8 +32,6 @@
         $num3 = trim($_POST["numero3"]) ?? "";
         $resultado = multiplicar($num1, $num2, $num3);
         echo "<br> Resultado de: $num1 x $num2 x $num3 = $resultado";
-
-        
     }
     
     ?>
