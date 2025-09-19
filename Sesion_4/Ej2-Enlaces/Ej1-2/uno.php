@@ -1,6 +1,7 @@
 <?php
 include "index.php";
-$link = $_GET['link'] ?? "";
+$link = $_GET['link'] ?? "No recibido";
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -10,6 +11,6 @@ $link = $_GET['link'] ?? "";
     <title>uno</title>
 </head>
 <body>
-    <p>El número de elance es el <?php echo htmlspecialchars($link); ?></p>
+    <p>Mi libro favorito es  <?php echo htmlspecialchars($link); ?></p>
 </body>
 </html>
