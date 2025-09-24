@@ -19,7 +19,7 @@ else:
 ?>
 
 
-<<a href="index.php?lib=<?= $libro ?>">Mi libro favorito</a>
+<a href="index.php?lib=<?= $libro ?>">Mi libro favorito</a>
 <a href="index.php?comi=<?= $comida ?>">Mi comida favorita</a>
 <a href="index.php?peli=<?= $pelicula ?>">Mi película favorita</a>
 
