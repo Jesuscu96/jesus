@@ -1,3 +1,5 @@
+<<<<<<< HEAD
+=======
 
 <!DOCTYPE html>
 <html lang="en">
@@ -32,8 +34,6 @@
         $num3 = trim($_POST["numero3"]) ?? "";
         $resultado = multiplicar($num1, $num2, $num3);
         echo "<br> Resultado de: $num1 x $num2 x $num3 = $resultado";
-
-        
     }
     
     ?>
@@ -47,3 +47,4 @@
 
 
 
+>>>>>>> 1edeaf0ca8f8b7621f8067f4c0aa2332fef2d9bd
