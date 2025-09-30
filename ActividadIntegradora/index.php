@@ -7,34 +7,36 @@
 </head>
 <body>
     <h1>Jesus Clemente</h1>
-        <form action="" method="post">
+        
             
                
-            <!-- <p>Usuario: <input type="text" name="usuario"> </p> -->
+        <!-- <p>Usuario: <input type="text" name="usuario"> </p> -->
            
-            <form method="post" action="">
-                Selecciona la opción deseada:
-                <br><select name="Productos1">
-                    <option value="tv">Tv</option>
-                    <option value="monitor">Monitor</option>
-                    <option value="altavoces">Altavoces</option>
-                </select>
-                <br><select name="Productos2">
-                    <option value="silla">Silla</option>
-                    <option value="mesa">Mesa</option>
-                    <option value="sofa">Sofa</option>
-                </select>
-                <br><select name="Productos3">
-                    <option value="macarrones">Macarrones</option>
-                    <option value="galletas">Galletas</option>
-                    <option value="jabon">Jabon</option>
-                </select>
-                </form>
-            
-            
+        <form method="post" action="">
+            Selecciona la opción deseada:
+            <br><select name="Productos1">
+                <option value="tv">Tv</option>
+                <option value="monitor">Monitor</option>
+                <option value="altavoces">Altavoces</option>
+            </select>
+            <br><select name="Productos2">
+                <option value="silla">Silla</option>
+                <option value="mesa">Mesa</option>
+                <option value="sofa">Sofa</option>
+            </select>
+            <br><select name="Productos3">
+                <option value="macarrones">Macarrones</option>
+                <option value="galletas">Galletas</option>
+                <option value="jabon">Jabon</option>
+            </select>
+
             <p><input type="submit" name="comprar" value="comprar"></p>
-            
         </form>
+        
+        
+        
+            
+        
         <?php 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
