@@ -20,6 +20,13 @@ $imagenes = scandir($file);
         <img src="<?=$file . $imagen?>" width="150">
         <br>
     <?php
+    /*$imagen = "foto.JPG";
+
+    if (preg_match('/\.(jpg|jpeg|png)$/i', $imagen)) {
+        echo "Es una imagen válida";
+    } else {
+        echo "No es una imagen válida";
+    } */
     }
     endforeach; ?>
     
