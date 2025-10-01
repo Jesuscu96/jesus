@@ -3,7 +3,15 @@
 //Luego, crea un script que agregue nuevas tareas al archivo y muestre la lista completa.
 $file = "portadas/";
 $imagenes = scandir($file);
+if(isset($_GET["imagen"])){
+    $imagen = $_GET["imagen"];
+    if( unlink("portadas/{$imagen}")){
+        header("location: index.php");
+    }
+    
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,13 +20,23 @@ $imagenes = scandir($file);
     <title>Document</title>
 </head>
 <body>
-    <br><a href = "index.php">Inicio</a>
+    <a href = "index.php">Inicio</a>
     <br>
+    
+    
     <?php
     foreach($imagenes as $imagen) : 
     if($imagen !== "." && $imagen !== "..") {?>
         <img src="<?=$file . $imagen?>" width="150">
+        <a href="index.php?imagen=<?=$imagen?>">Eleminar</a>
         <br>
+        
+    <?php
+    
+   
+    }
+    endforeach; ?>
+    
     <?php
     /*$imagen = "foto.JPG";
 
@@ -27,8 +45,7 @@ $imagenes = scandir($file);
     } else {
         echo "No es una imagen válida";
     } */
-    }
-    endforeach; ?>
+    ?>
     
 </body>
 </html>
