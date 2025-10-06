@@ -2,7 +2,7 @@
 //Ejercicio 7: Crea un script en PHP que lea los datos de productos almacenados 
 //en un archivo de texto llamado productos.txt y los muestre en una tabla HTML.
 
-$file = "tareas.txt";
+$file = "productos.txt";
 
 if (!file_exists($file)){
     $contador = 0;

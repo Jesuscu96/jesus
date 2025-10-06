@@ -1,6 +1,5 @@
 <?php 
-//Ejercicio 5. Crea un archivo llamado tareas.txt que almacene una lista de tareas. 
-//Luego, crea un script que agregue nuevas tareas al archivo y muestre la lista completa.
+
 $file = "portadas/";
 $imagenes = scandir($file);
 if(isset($_GET["imagen"])){
@@ -26,10 +25,10 @@ if(isset($_GET["imagen"])){
     
     <?php
     foreach($imagenes as $imagen) : 
-    if($imagen !== "." && $imagen !== "..") {?>
-        <img src="<?=$file . $imagen?>" width="150">
-        <a href="index.php?imagen=<?=$imagen?>">Eleminar</a>
-        <br>
+    if($imagen !== "." && $imagen !== ".." && !is_dir($file . $imagen)) {?>
+        <img src="<?=$file . $imagen?>" width="150"></br>
+        <a href="index.php?imagen=<?=$imagen?>">Eleminar</a></br>
+        <a href="<?=$file . $imagen?>" download>Descargar</a></br>
         
     <?php
     

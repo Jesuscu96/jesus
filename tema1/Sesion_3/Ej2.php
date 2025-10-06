@@ -10,18 +10,7 @@ function test_input($data) {
     $data = htmlspecialchars($data);
     return $data;
 }
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    
-    $fruit = $_POST["fruit"] ?? "";
-    if ($fruit == "")
-        $errores[] = "El seleciona al menos una fruta";
-    if (!empty($errores)):
-        foreach ($errores as $error):
-            echo $error;
-        endforeach;
-    else: echo "Fruta $fruit";
-    endif;
-}
+
 $frutas = ["naranja", "manzana", "platano", "pera", "uva"];
 
 
