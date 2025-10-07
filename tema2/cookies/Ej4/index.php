@@ -1,3 +1,23 @@
+
+    <?php
+    $visitas = 0;
+   
+    if (isset($_COOKIE["usuario"])) {
+        $visitas = $_COOKIE["usuario"]+1;
+    }
+    setcookie("usuario", $visitas, [
+        "expires" => time() + 3600,
+        "path" => "/",
+        "secure" => false,
+        "httponly" => false,
+        "samesite" => "lax"
+    ]);
+    
+    
+    
+    
+    
+    ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,25 +26,11 @@
     <title>Document</title>
 </head>
 <body>
-   
-    
-    <?php
-   
-    
-    
-    setcookie("usuario", $usuario, [
-        "expires" => time() + 3600,
-        "path" => "/",
-        "secure" => false,
-        "httponly" => false,
-        "samesite" => "lax"
-    ]);
-    if (isset($_COOKIE["usuario"])) {
-        $visitas = 0;
-        if ($visitas == 0) {
-            
-        }
+   <?php 
+    if ($visitas < 1) {
+        echo "<h1> Bienvenida nuevo usuario </h1>";
     }
-    ?>
+   ?>
+    
 </body>
 </html>
