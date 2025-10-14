@@ -20,7 +20,7 @@ $libroObj = new Libros();
        <?php
         if (isset($_GET['cat'])) {
             $libros = $libroObj->getByCategoria($_GET['cat']);
-            echo "<h3>Libros de la categori­as seleccionada</h3><div class='row'>";
+            echo "<h3>Libros de la categorias seleccionada</h3><div class='row'>";
         } else {
             $librosPop = $libroObj->getPopulares();
             $librosNew = $libroObj->getRecientes();
@@ -43,7 +43,7 @@ $libroObj = new Libros();
             <div class="row">
                 <?php foreach ($librosNew as $libro) : ?>
                 <div class="col-md-3 text-center mb-4">
-                    <a href="">
+                    <a href="libro.php?id=<?=$libro["id_libro"]?>">
                         <img src="portadas/<?= $libro['portada']?>" class="img-fluid">
                     </a>
                     <p><?= $libro['titulo']?></p>

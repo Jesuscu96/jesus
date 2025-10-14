@@ -36,3 +36,4 @@ $categorias = $categoriasObj->showCategorias();
             <?php endforeach; ?>        
             </ul>
         </aside>
+    

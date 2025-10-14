@@ -1,5 +1,4 @@
 <?php
-
 require_once("database.php");
 class Libros {
     public function getPopulares($limite = 4) {
@@ -41,6 +40,37 @@ class Libros {
         $db->closeConnection($conn);
         return $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
     }
+
+    public function getLibroById($id) {
+        $db = new Connection();
+        $conn = $db->getConnection();
+        
+        $sql = "SELECT libros.*, categorias.categoria FROM libros
+        LEFT JOIN categorias ON libros.id_categoria = categorias.id_categoria
+        WHERE id_libro = ?";
+        
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        $db->closeConnection($conn);
+        //cuando devuelve un solo resultado
+        return $result ? $result->fetch_assoc() : null;
+    }
+
+    public function sumarVisita($id) {
+        $db = new Connection();
+        $conn = $db->getConnection();
+        
+        $sql = "UPDATE libros SET visitas = visitas + 1 WHERE id_libro = ?";
+        
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $db->closeConnection($conn);
+    }
+        
 }
 ?>
 

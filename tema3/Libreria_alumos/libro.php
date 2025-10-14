@@ -1,15 +1,18 @@
 <?php 
 require_once "./admin/includes/crudLibros.php";
 $libroObj = new Libros();
-if (isset($_GET['id'])) {
-    $id = $_GET['id']
+if (isset($_GET['id'])) { //si hay id en la url
+    $id = $_GET['id'];
     $libroObj->sumarVisita($id);
-    $libroObj = $libroObj->getLibroById($id);
+    $libro = $libroObj->getLibroById($id);
    
-} else {
-    header("Location: index.php");
+} else {//si no hay id en la url
+    header("Location:index.php");
     exit;
 }
+// Formateamos la fecha al uso horario de España
+$fechaOriginal = new Datetime($libro['fecha']);
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -30,11 +33,11 @@ if (isset($_GET['id'])) {
         </div>
         <div class="col-md-8">
             <h2><?= $libro['titulo']?></h2>
-            <p><strong>Autor:</strong><?= $libro['autor']?></p>
-            <p><strong>Categoría:</strong><?= $libro['categoria']?></p>
-            <p><strong>Precio:</strong><?= $libro['precio']?></p>
-            <p><strong>Visitas:</strong><?= $libro['visitas']?></p>
-            <p><strong>Fecha de alta:</strong><?= $libro['fecha']?></p>
+            <p><strong>Autor: </strong><?= $libro['autor']?></p>
+            <p><strong>Categoría: </strong><?= $libro['categoria']?></p>
+            <p><strong>Precio: </strong><?= $libro['precio']?></p>
+            <p><strong>Visitas: </strong><?= $libro['visitas']?></p>
+            <p><strong>Fecha de alta: </strong><?= $fechaOriginal->format("d/m/Y")?></p> <!--Formateamos la fecha al uso horario de España -->
         </div>
     </div>
     <?php include("footer.php"); ?>
