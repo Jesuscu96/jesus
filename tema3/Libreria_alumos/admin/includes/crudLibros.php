@@ -47,7 +47,7 @@ class Libros {
         
         $sql = "SELECT libros.*, categorias.categoria FROM libros
         LEFT JOIN categorias ON libros.id_categoria = categorias.id_categoria
-        WHERE id_libro = ?";
+        WHERE  libros.id_libro = ?";
         
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("i", $id);
@@ -56,7 +56,20 @@ class Libros {
         
         $db->closeConnection($conn);
         //cuando devuelve un solo resultado
-        return $result ? $result->fetch_assoc() : null;
+        return $result ? $result->fetch_assoc() : [];
+    }
+    public function getAll() {
+        $db = new Connection();
+        $conn = $db->getConnection();
+        
+        $sql = "SELECT libros.*, categorias.categoria FROM libros
+        LEFT JOIN categorias ON libros.id_categoria = categorias.id_categoria
+        ORDER BY titulo";
+        
+        $result = $conn->query($sql);
+        $db->closeConnection($conn);
+        //cuando devuelve un solo resultado
+        return $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
     }
 
     public function sumarVisita($id) {
@@ -68,6 +81,39 @@ class Libros {
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("i", $id);
         $stmt->execute();
+        $db->closeConnection($conn);
+    }
+    public function insertarLibro($titulo, $autor, $id_categoria, $precio, $fecha, $portada) {
+        $db = new Connection();
+        $conn = $db->getConnection();
+        
+        $sql = "INSERT INTO libros (titulo, autor, id_categoria, precio, fecha, portada, visitas) VALUES (?, ?, ?, ?, ?, ?, 0)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ssidss", $titulo, $autor, $id_categoria, $precio, $fecha, $portada);
+        $stmt->execute();
+
+        $db->closeConnection($conn);
+    }
+    public function actualizarLibro($id, $titulo, $autor, $id_categoria, $precio, $fecha, $portada) {
+        $db = new Connection();
+        $conn = $db->getConnection();
+        
+        $sql = "UPDATE libros SET titulo=?, autor=?, id_categoria=?, precio=?, fecha=?, portada=? WHERE id_libro=?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ssidssi", $titulo, $autor, $id_categoria, $precio, $fecha, $portada, $id);
+        $stmt->execute();
+
+        $db->closeConnection($conn);
+    }
+    public function eliminarLibro($id) {
+        $db = new Connection();
+        $conn = $db->getConnection();
+        
+        $sql = "DELETE FROM libros WHERE id_libro = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+
         $db->closeConnection($conn);
     }
         
