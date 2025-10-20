@@ -12,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header("Location: admin/index.php");
         exit();
     } else {
-        $error = "Usuario o contraseÃ±a incorrectos";
+        $error = "Usuario o contraseña incorrectos";
     }
 }
 ?>
@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <?php include("menu.php"); ?>
 
 <main class="col-md-9">
-    <h2>Iniciar sesiÃ³n</h2>
+    <h2>Iniciar sesion</h2>
 
     <?php if ($error): ?>
         <div class="alert alert-danger"><?= $error ?></div>
