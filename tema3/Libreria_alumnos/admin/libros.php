@@ -57,6 +57,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     header("Location: libros.php");
     exit();
 }
+/* if(isset($_GET["imagen"])){
+    $imagen = $_GET["imagen"];
+    if( unlink("../portadas/{$imagen}")){
+        header("location: libros.php");
+    }
+} */
+/* if (file_exists("../portadas/{$_FILES["foto"]["name"]}")){
+    echo $_FILES["foto"]["name"]. " Ya existe. ";
+} else{
+    move_uploaded_file($_FILES["foto"]["tmp_name"],"../portadas/". $_FILES["foto"]["name"]);
+    //echo "<br>Imagen almacenada en: " . "dirImagen" . $_FILES["foto"]["name"];
+} */
 ?>
 
 
@@ -149,9 +161,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                 value="<?= $accion === 'crear' ? $datos_libro['fecha'] :  $fecha_value_editar ?>" required>
                             </div>
                             <div class="mb-2">
-                                <label class="form-label">Portada:</label>
-                                <input type="text" name="portada" class="form-control"
+                                <label class="form-label">Portada: <?= htmlspecialchars($datos_libro['portada']) ?></label>
+                                <input type="file" name="portada" class="form-control"
                                 value="<?= htmlspecialchars($datos_libro['portada']) ?>" required>
+                                
                             </div>
                             
                             
