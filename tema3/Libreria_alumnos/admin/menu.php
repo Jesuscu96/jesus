@@ -19,7 +19,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="./includes/logout.php">Cerrar sesión</a>
-                </li>
+                </li>                
             </ul>
         </div>
     </div>

@@ -25,10 +25,11 @@ $mensaje = "";
 if($accion == "eliminar" && $id){
     $libroObj->eliminarLibro($id);
     $mensaje = "Libro eliminado correctamente.";
-    header("Location: libros.php");
-    exit();
 }
 $datos_libro = ['titulo' => '',
+                'autor' => '',
+                'id_categoria' => '',
+                'titulo' => '', 
                 'autor' => '',
                 'id_categoria' => '',
                 'precio' => '',
@@ -38,6 +39,7 @@ $datos_libro = ['titulo' => '',
 if ($accion === "editar" && $id) {
     //guarda los datos de la categoria seleccionada en $categoria
     $datos_libro = $libroObj->getLibroById($id); 
+    $fecha_value_editar = date("Y-m-s", strtotime($datos_libro['fecha']));
 }
 // Procesar el formulario de creaciÃ³n o ediciÃ³n de categorÃ­a
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -50,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if ($accion === "crear") {
         $libroObj->insertarLibro($titulo, $autor, $id_categoria, $precio, $fecha, $portada);
     } elseif ($accion === "editar" && $id) {
-        $libroObj->actualizarLibro($id, $titulo, $autor, $id_categoria, $precio, $fecha, $portada, $id);
+        $libroObj->actualizarLibro($titulo, $autor, $id_categoria, $precio, $fecha, $portada);
     }
     // Redirigir a la pÃ¡gina de categorÃ­as despuÃ©s de guardar
     header("Location: libros.php");
@@ -58,6 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 }
 ?>
 
+?>
 
 
 <!DOCTYPE html>
@@ -65,7 +68,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 <head>
     <meta charset="UTF-8">
-    <title>Gestion de Libros</title>
+    <title>Gestion de Usuarios</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
@@ -76,9 +79,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <div class="container mt-4">
         <div class="row justify-content-center">
             <main class="col-md-10">
-                <h2>Libros</h2>
+                <h2>Usuarios</h2>
 
-                <a href="libros.php?accion=crear" class="btn btn-success mb-3">Añadir nuevo libro</a>
+                <a href="libros.php?accion=crear" class="btn btn-success mb-3">Añadir nuevo Usuario</a>
 
                 <table class="table table-striped">
                     <thead>
@@ -100,7 +103,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                             <td><?=$libro['id_categoria']?></td>
                             <td><?=$libro['precio']?></td>
                             <td><?=date("d-m-Y", strtotime($libro['fecha']))?></td>
-                            <td><img src="../portadas/<?=$libro['portada']?>" alt="portada" width="30px"></td>
+                            <td><?=$libro['portada']?></td>
                             
                             <td>
                                 <a href="libros.php?accion=editar&id=<?=$libro['id_libro']?>" class="btn btn-sm btn-primary">
@@ -133,23 +136,23 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                             </div>
                             <div class="mb-2">
                                 <label class="form-label">Categoria:</label>
-                                <input type="text" name="id_categoria" class="form-control"
+                                <input type="text" name="categoria" class="form-control"
                                 value="<?= htmlspecialchars($datos_libro['id_categoria']) ?>" required>
                             </div>
                             
                             <div class="mb-2">
                                 <label class="form-label">Precio:</label>
                                 <input type="text" name="precio" class="form-control"
-                                value="<?= htmlspecialchars($datos_libro['precio'] ?? 0) ?>" required>
-                            </div>
-                            <div class="mb-2">
-                                <label class="form-label">Fecha:</label>
-                                <input type="date" name="fecha" class="form-control"
-                                value="<?= htmlspecialchars(date("Y-m-d", strtotime($datos_libro['fecha']))) ?>" required>
+                                value="<?= $accion === 'crear' ? $datos_libro['fecha'] :  $fecha_value_editar ?>" required>
                             </div>
                             <div class="mb-2">
                                 <label class="form-label">Portada:</label>
                                 <input type="text" name="portada" class="form-control"
+                                value="<?= htmlspecialchars($datos_libro['fecha']) ?>" required>
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label">Fecha:</label>
+                                <input type="text" name="fecha" class="form-control"
                                 value="<?= htmlspecialchars($datos_libro['portada']) ?>" required>
                             </div>
                             
