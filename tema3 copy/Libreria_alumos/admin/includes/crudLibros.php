@@ -68,7 +68,7 @@ class Libros {
         
         $result = $conn->query($sql);
         $db->closeConnection($conn);
-        
+        //cuando devuelve un solo resultado
         return $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
     }
 
