@@ -37,7 +37,8 @@ $datos_libro = ['titulo' => '',
 
 if ($accion === "editar" && $id) {
     //guarda los datos de la categoria seleccionada en $categoria
-    $datos_libro = $libroObj->getLibroById($id); 
+    $datos_libro = $libroObj->getLibroById($id);
+    $fecha_value_editar = date("Y-m-s", strtotime($datos_libro['fecha']));
 }
 // Procesar el formulario de creaciÃ³n o ediciÃ³n de categorÃ­a
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -145,7 +146,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                             <div class="mb-2">
                                 <label class="form-label">Fecha:</label>
                                 <input type="date" name="fecha" class="form-control"
-                                value="<?= htmlspecialchars(date("Y-m-d", strtotime($datos_libro['fecha']))) ?>" required>
+                                value="<?= $accion === 'crear' ? $datos_libro['fecha'] :  $fecha_value_editar ?>" required>
                             </div>
                             <div class="mb-2">
                                 <label class="form-label">Portada:</label>
