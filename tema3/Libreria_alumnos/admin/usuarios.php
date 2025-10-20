@@ -79,6 +79,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                             <th>Email</th>
                             <th>Username</th>
                             <th>Contraseña</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
