@@ -55,14 +55,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $directorioDestino = "../portadas/";
         $rutaArchivo = $directorioDestino . $nombreArchivo;
 
-        if (file_exists($rutaArchivo)) {
+        /* if (file_exists($rutaArchivo)) {
             $errorPortada = "La imagen ya existe.";
         } else {
-            if (move_uploaded_file($_FILES['portada']['tmp_name'], $rutaArchivo)) {
+            
+        } */
+        if (move_uploaded_file($_FILES['portada']['tmp_name'], $rutaArchivo)) {
                 $portada = $nombreArchivo;
-            } else {
-                $errorPortada = "Error al subir la imagen.";
-            }
+        } else {
+               $errorPortada = "Error al subir la imagen.";
         }
     } else {
         $errorPortada = "Debe seleccionar una imagen para la portada.";
@@ -168,7 +169,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                             </div>
                             <div class="mb-2">
                                 <label class="form-label">Fecha:</label>
-                                <input type="date" name="fecha" class="form-control"
+                                <input type="text" name="fecha" class="form-control"
                                 value="<?= $accion === 'crear' ? $datos_libro['fecha'] :  $fecha_value_editar ?>" required>
                             </div>
                             <div class="mb-2">
