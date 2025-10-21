@@ -43,13 +43,25 @@ class Usuarios {
 
         $db->closeConnection($conn);
     }
-    public function actualizarUsuario($id, $nombre, $apellidos, $email, $username, $password) {
+    public function actualizarUsuario($id, $nombre, $apellidos, $email, $username) {
         $db = new Connection();
         $conn = $db->getConnection();
         
-        $sql = "UPDATE usuarios SET nombre=?, apellidos=?, email=?, username=?, password=? WHERE id_usuario=?";
+        $sql = "UPDATE usuarios SET nombre=?, apellidos=?, email=?, username=? WHERE id_usuario=?";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sssssi", $nombre, $apellidos, $email, $username, $password, $id);
+        $stmt->bind_param("ssssi", $nombre, $apellidos, $email, $username, $id);
+        $stmt->execute();
+
+        $db->closeConnection($conn);
+    }
+    public function actualizarPassword($id, $password) {
+        $db = new Connection();
+        $conn = $db->getConnection();
+
+        $hash = password_hash($password, PASSWORD_DEFAULT);
+        $sql = "UPDATE usuarios SET password=? WHERE id=?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("si", $hash, $id);
         $stmt->execute();
 
         $db->closeConnection($conn);
@@ -58,7 +70,7 @@ class Usuarios {
         $db = new Connection();
         $conn = $db->getConnection();
         
-        $sql = "DELETE FROM usuarios WHERE id_usuario = ?";
+        $sql = "DELETE FROM usuarios WHERE id = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("i", $id);
         $stmt->execute();

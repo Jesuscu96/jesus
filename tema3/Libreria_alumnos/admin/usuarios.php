@@ -18,7 +18,7 @@ $usuarios = $usuarioObj->getAll();
 $accion = $_GET['accion'] ?? null;
 $id = $_GET['id'] ?? null;
 $mensaje = "";
-if($accion == "eliminar" && $id){
+if($accion == "eliminar" && $id) {
     $usuarioObj->eliminarUsuario($id);
     $mensaje = "Usuario eliminado correctamente.";
 }
@@ -38,14 +38,32 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $email = $_POST['email'] ?? '';
     $username = $_POST['username'] ?? '';
     $password = $_POST['password'] ?? '';
-    if ($accion === "crear") {
-        $usuarioObj->insertarUsuario($titulo, $autor, $email, $username, $password);
+    $passwordConfirm = $_POST['passwordConfirm'] ?? '';
+    $mensaje ="";
+     if ($accion === "crear") {
+        if ($password !== $passwordConfirm) {
+            $mensaje = "Las contraseñas no coinciden.";
+        } else {
+            $usuarioObj->insertarUsuario($nombre, $apellidos, $email, $username, $password);
+            header("Location: usuarios.php");
+            exit();
+        }
     } elseif ($accion === "editar" && $id) {
-        $libroObj->actualizarUsuario($titulo, $autor, $email, $username, $password);
-    }
-    // Redirigir a la pÃ¡gina de categorÃ­as despuÃ©s de guardar
-    header("Location: usuarios.php");
-    exit();
+        // Actualización sin cambiar contraseña
+        $usuarioObj->actualizarUsuario($id, $nombre, $apellidos, $email, $username);
+        header("Location: usuarios.php");
+        exit();
+    } elseif ($accion === "editarPass" && $id) {
+        // Validar contraseña antes de actualizar
+        if ($password !== $passwordConfirm) {
+            $mensaje = "Las contraseñas no coinciden.";
+        } else {
+            $usuarioObj->actualizarPassword($id, $password);
+            header("Location: usuarios.php");
+            exit();
+        }
+    } 
+    
 }
 ?>
 
@@ -95,6 +113,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                 <a href="usuarios.php?accion=editar&id=<?=$usuario['id']?>" class="btn btn-sm btn-primary">
                                     Editar
                                 </a>
+                                <a href="usuarios.php?accion=editarPass&id=<?=$usuario['id']?>" class="btn btn-sm btn-secondary">
+                                    Editar contraseña
+                                </a>
                                 <a href="usuarios.php?accion=eliminar&id=<?=$usuario['id']?>" class="btn btn-sm btn-danger" onclick="return confirm('¿Estas seguro?')">
                                     Eliminar
                                 </a>
@@ -103,7 +124,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         <?php endforeach ?>
                     </tbody>
                 </table>
-               <?php if ($accion === "crear" || ($accion === "editar" && $id)): ?>
+                <?php if ($accion === "crear" || ($accion === "editar" && $id)): ?>
                     
                         <!-- TÃ­tulo dependiendo de si se estÃ¡ creando o editando -->
                         <h3><?= $accion === "crear" ? "Nuevo usuario" : "Editar usuario" ?></h3>
@@ -131,26 +152,41 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                 <input type="text" name="username" class="form-control"
                                 value="<?=htmlspecialchars($datos_usuario['username'])?>" required>
                             </div>
-                            <div class="mb-2">
+                            <!-- Botones para guardar o cancelar -->
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                            <a href="usuarios.php" class="btn btn-secondary">Cancelar</a>
+                        </form>
+                           
+                <?php elseif (($accion === "editarPass" && $id)): ?>
+                    
+                        <!-- TÃ­tulo dependiendo de si se estÃ¡ creando o editando -->
+                        <h3><?= $accion === "crear" ? "Nuevo usuario" : "Editar contraseña" ?></h3>
+                        
+                        <!-- Formulario para ingresar el nombre de la categorÃ­a -->
+                        <form method="post" class="mb-4" style="max-width: 400px;">                            
+                            
+                             <div class="mb-2">
                                 <label class="form-label">Password:</label>
-                                <input type="text" name="password" class="form-control"
-                                value="
-                                " required>
-                            </div>
-                            <div class="mb-2">
-                                <label class="form-label">Confirmar password:</label>
                                 <input type="text" name="password" class="form-control"
                                 value="" required>
                             </div>
-                            
-                            
-                            
+                            <div class="mb-2">
+                                <label class="form-label">Confirmar password:</label>
+                                <input type="text" name="passwordConfirm" class="form-control"
+                                value="" required>
+                            </div>
+                            <?php if (!empty($mensaje)) { ?>
+                                <div class="mb-2">
+                                    <p style="color:red; font-weight:bold;"><?= htmlspecialchars($mensaje) ?></p>
+                                </div>
+                            <?php } ?>
 
                             <!-- Botones para guardar o cancelar -->
                             <button type="submit" class="btn btn-primary">Guardar</button>
                             <a href="usuarios.php" class="btn btn-secondary">Cancelar</a>
                         </form>
-                    <?php endif; ?>
+        
+                <?php endif; ?>
             </main>
         </div>
     </div>

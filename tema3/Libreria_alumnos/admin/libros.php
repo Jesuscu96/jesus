@@ -41,6 +41,7 @@ if ($accion === "editar" && $id) {
     $fecha_value_editar = date("Y-m-s", strtotime($datos_libro['fecha']));
 }
 // Procesar el formulario de creaciÃ³n o ediciÃ³n de categorÃ­a
+$errorPortada = "";
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $titulo = $_POST['titulo'] ?? '';
     $autor = $_POST['autor'] ?? '';
@@ -48,27 +49,37 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $precio = $_POST['precio'] ?? '';
     $fecha = $_POST['fecha'] ?? '';
     $portada = $_POST['portada'] ?? '';
-    if ($accion === "crear") {
-        $libroObj->insertarLibro($titulo, $autor, $id_categoria, $precio, $fecha, $portada);
-    } elseif ($accion === "editar" && $id) {
-        $libroObj->actualizarLibro($id, $titulo, $autor, $id_categoria, $precio, $fecha, $portada, $id);
+    $portada = '';
+    if (isset($_FILES['portada']) && $_FILES['portada']['error'] === UPLOAD_ERR_OK) {
+        $nombreArchivo = basename($_FILES['portada']['name']);
+        $directorioDestino = "../portadas/";
+        $rutaArchivo = $directorioDestino . $nombreArchivo;
+
+        if (file_exists($rutaArchivo)) {
+            $errorPortada = "La imagen ya existe.";
+        } else {
+            if (move_uploaded_file($_FILES['portada']['tmp_name'], $rutaArchivo)) {
+                $portada = $nombreArchivo;
+            } else {
+                $errorPortada = "Error al subir la imagen.";
+            }
+        }
+    } else {
+        $errorPortada = "Debe seleccionar una imagen para la portada.";
     }
-    // Redirigir a la pÃ¡gina de categorÃ­as despuÃ©s de guardar
-    header("Location: libros.php");
-    exit();
+    if ($errorPortada === "") {
+        if ($accion === "crear") {
+            $libroObj->insertarLibro($titulo, $autor, $id_categoria, $precio, $fecha, $portada);
+        } elseif ($accion === "editar" && $id) {
+            $libroObj->actualizarLibro($id, $titulo, $autor, $id_categoria, $precio, $fecha, $portada, $id);
+        }
+        // Redirigir a la pÃ¡gina de categorÃ­as despuÃ©s de guardar
+        header("Location: libros.php");
+        exit();
+    }
+   
 }
-/* if(isset($_GET["imagen"])){
-    $imagen = $_GET["imagen"];
-    if( unlink("../portadas/{$imagen}")){
-        header("location: libros.php");
-    }
-} */
-/* if (file_exists("../portadas/{$_FILES["foto"]["name"]}")){
-    echo $_FILES["foto"]["name"]. " Ya existe. ";
-} else{
-    move_uploaded_file($_FILES["foto"]["tmp_name"],"../portadas/". $_FILES["foto"]["name"]);
-    //echo "<br>Imagen almacenada en: " . "dirImagen" . $_FILES["foto"]["name"];
-} */
+
 ?>
 
 
@@ -133,7 +144,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         <h3><?= $accion === "crear" ? "Nuevo libro" : "Editar libro" ?></h3>
                         
                         <!-- Formulario para ingresar el nombre de la categorÃ­a -->
-                        <form method="post" class="mb-4" style="max-width: 400px;">
+                        <form method="post" enctype="multipart/form-data" class="mb-4" style="max-width: 400px;">
                             <div class="mb-2">
                                 <label class="form-label">Titulo:</label>
                                 <input type="text" name="titulo" class="form-control"
