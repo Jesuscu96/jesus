@@ -36,7 +36,9 @@ class Usuarios {
         
         $sql = "INSERT INTO usuarios (nombre, apellidos, email, username, password) VALUES (?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sssss", $nombre, $apellidos, $email, $username, $password);
+        $hash = password_hash($password, PASSWORD_DEFAULT);
+        $stmt->bind_param("sssss", $nombre, $apellidos, $email, $username, $hash);
+
         $stmt->execute();
 
         $db->closeConnection($conn);
