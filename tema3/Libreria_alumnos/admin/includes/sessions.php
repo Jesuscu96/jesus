@@ -69,7 +69,11 @@ class Sessions {
         session_start();
         return isset($_SESSION['usuario']);
     }
-    
+    public function sesionByUsuario() {
+        
+        return $byUsuario = $_SESSION['usuario'] ;
+
+    }
     public function cerrarSesion() {
         session_start();
         session_destroy();
