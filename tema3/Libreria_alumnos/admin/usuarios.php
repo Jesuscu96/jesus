@@ -11,23 +11,11 @@ if (!$sesion->comprobarSesion()) {
     header("Location: ../login.php");
     exit();
 }
+//$usuarioActual = $sesion->getUsuarioActual();
 
 require_once "./includes/crudUsuarios.php";
 $usuarioObj = new Usuarios();
 $usuarios = $usuarioObj->getAll();
-
-// Obtener el username del usuario en sesión (si existe) para compararlo al renderizar
-$usuarioSessions = null;
-if ($sesion->comprobarSesion()) {
-    $usuarioEnSesion = $sesion->sesionByUsuario();
-    // $usuarioEnSesion puede ser un array con campos del usuario
-    if (is_array($usuarioEnSesion) && isset($usuarioEnSesion['username'])) {
-        $usuarioSessions = $usuarioEnSesion['username'];
-    } elseif (is_string($usuarioEnSesion)) {
-        // en algunos casos puede almacenarse sólo el username
-        $usuarioSessions = $usuarioEnSesion;
-    }
-}
 
 $accion = $_GET['accion'] ?? null;
 $id = $_GET['id'] ?? null;
@@ -130,7 +118,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                 <a href="usuarios.php?accion=editarPass&id=<?=$usuario['id']?>" class="btn btn-sm btn-secondary">
                                     Editar contraseña
                                 </a>
-                                <?php if($usuarioSessions !== $usuario['username']) { ?>
+                                <?php if($_SESSION['usuario']['id'] !== (int)$usuario['id']) { ?>
                                     <a href="usuarios.php?accion=eliminar&id=<?=$usuario['id']?>" class="btn btn-sm btn-danger" onclick="return confirm('¿Estas seguro?')">
                                         Eliminar
                                     </a>

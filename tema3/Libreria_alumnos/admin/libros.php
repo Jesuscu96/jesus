@@ -24,6 +24,12 @@ $id = $_GET['id'] ?? null;
 $mensaje = "";
 if($accion == "eliminar" && $id){
     $libroObj->eliminarLibro($id);
+    if ($libro && $libro['portada']) {
+        $rutaPortada = "../portadas/" . $libro['portada'];
+        if (file_exists($rutaPortada)) {
+            unlink($rutaPortada);
+        }
+    }
     $mensaje = "Libro eliminado correctamente.";
     header("Location: libros.php");
     exit();
@@ -55,16 +61,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $directorioDestino = "../portadas/";
         $rutaArchivo = $directorioDestino . $nombreArchivo;
 
-        /* if (file_exists($rutaArchivo)) {
+        if (file_exists($rutaArchivo)) {
             $errorPortada = "La imagen ya existe.";
         } else {
-            
-        } */
-        if (move_uploaded_file($_FILES['portada']['tmp_name'], $rutaArchivo)) {
+            if (move_uploaded_file($_FILES['portada']['tmp_name'], $rutaArchivo)) {
                 $portada = $nombreArchivo;
-        } else {
-               $errorPortada = "Error al subir la imagen.";
-        }
+            } else {
+                $errorPortada = "Error al subir la imagen.";
+            }
+        } 
+        
     } else {
         $errorPortada = "Debe seleccionar una imagen para la portada.";
     }
