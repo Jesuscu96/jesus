@@ -128,7 +128,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         <?php endforeach ?>
                     </tbody>
                 </table>
-                <?php if ($accion === "crear" || ($accion === "editar" && $id)): ?>
+                <?php if ($accion === "editar" && $id): ?>
                     
                         <!-- TÃ­tulo dependiendo de si se estÃ¡ creando o editando -->
                         <h3><?= $accion === "crear" ? "Nuevo usuario" : "Editar usuario" ?></h3>
@@ -160,7 +160,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                             <button type="submit" class="btn btn-primary">Guardar</button>
                             <a href="usuarios.php" class="btn btn-secondary">Cancelar</a>
                         </form>
-                <?php elseif (($accion === "crear" && $id)): ?>
+                <?php elseif (($accion === "crear")): ?>
                          <!-- TÃ­tulo dependiendo de si se estÃ¡ creando o editando -->
                         <h3><?= $accion === "crear" ? "Nuevo usuario" : "Editar usuario" ?></h3>
                         
