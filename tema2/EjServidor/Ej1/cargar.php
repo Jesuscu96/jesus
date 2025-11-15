@@ -19,7 +19,7 @@ if (file_exists("dirImagenes/{$_FILES["foto"]["name"]}")){
     echo $_FILES["foto"]["name"]. " Ya existe. ";
 } else{
     move_uploaded_file($_FILES["foto"]["tmp_name"],"dirImagenes/". $_FILES["foto"]["name"]);
-    echo "<br>Imagen almacenada en: " . "dirImagen" . $_FILES["foto"]["name"];
+    echo "<br>Imagen almacenada en: " . "dirImagen" . ;
 }
 
 ?>
