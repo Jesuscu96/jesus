@@ -10,7 +10,7 @@ if (!$sesion->comprobarSesion()) {
     header("Location: ../login.php"); 
     exit(); 
 } 
-
+// SE PUEDE CERRAR SESION
 $editorialObj = new Editoriales();
 //listar todas las categorias para cargar en la tabla
 $listaEditoriales = $editorialObj->showEditoriales();
@@ -21,7 +21,8 @@ $id = $_GET['id'] ?? null;
 $mensaje = "";
 $error=[];
 
-//eliminar
+//ELIMINAR Si no se puede he puesto tanto en el crud y aqui un control de errores de que si un libro esta asignado a una editorial 
+
 if ($accion === "eliminar" && $id){
     $eliminar = $editorialObj->eliminarEditorial($id);
     if($eliminar) {

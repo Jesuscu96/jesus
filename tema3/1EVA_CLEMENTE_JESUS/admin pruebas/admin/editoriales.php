@@ -19,14 +19,20 @@ $listaEditoriales = $editorialObj->showEditoriales();
 $accion = $_GET['accion'] ?? null;
 $id = $_GET['id'] ?? null;
 $mensaje = "";
+$error=[];
 
 //eliminar
 if ($accion === "eliminar" && $id){
-    $editorialObj->eliminarEditorial($id);
-    $mensaje = "Eliminada correctamente";
-    //redirección a categorias.php
-    header("location:editoriales.php");
-    exit();
+    $eliminar = $editorialObj->eliminarEditorial($id);
+    if($eliminar) {
+        $mensaje = "Eliminada correctamente";
+        //redirección a categorias.php
+        header("location:editoriales.php");
+        exit();
+    }
+    else {
+        $error[] = "Error al borrar la editorial por que esta asignada a un libro";
+    }
 }
 
 //rellenar el value del formulario (vacío o con la categoria si accion es editar)
@@ -80,6 +86,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
                 <?php if ($mensaje) : ?>
                     <div class="alert alert-success"><?= $mensaje?></div>
                 <?php endif?>
+                <?php if(!empty($error)) {
+                    foreach($error as $e): ?>
+                        <p><?= $e ?></p>
+                    <?php endforeach;
+                }?>
 
                 <a href="editoriales.php?accion=crear" class="btn btn-success mb-3">Añadir nueva editorial</a>
 
@@ -106,6 +117,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
                     <?php endforeach ?>
                     </tbody>
                 </table>
+                
 
                 <?php if ($accion === "crear" || ($accion === "editar" && $id)): ?> 
                     <!-- Título dependiendo de si se está creando o editando --> 

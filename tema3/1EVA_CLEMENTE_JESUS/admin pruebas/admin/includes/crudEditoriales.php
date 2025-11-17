@@ -61,14 +61,20 @@ class Editoriales
     }
 
     public function eliminarEditorial($id){
-        $db = new Connection();
-        $conn = $db->getConnection();
+        try{
+            $db = new Connection();
+            $conn = $db->getConnection();
 
-        $sql="DELETE FROM editoriales WHERE id_editorial = ? ";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("i",$id);
-        $stmt->execute();
-        
-        $db->closeConnection($conn);
+            $sql="DELETE FROM editoriales WHERE id_editorial = ? ";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("i",$id);
+            $stmt->execute();
+            $eliminar = $stmt->affected_rows > 0;
+            $db->closeConnection($conn);
+            return $eliminar;
+        }
+        catch(Exception $e) {
+            return False;
+        }
     }
 }

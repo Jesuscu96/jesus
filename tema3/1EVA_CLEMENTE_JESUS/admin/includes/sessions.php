@@ -50,8 +50,8 @@ class Sessions
     public function cerrarSesion()
     {
         session_start();
-        $usuario = $_SESSION['usuario'];
-        $this->log($usuario);
+        //$usuario = $_SESSION['usuario'];
+        //$this->log($usuario);
         session_destroy();
 
     }
