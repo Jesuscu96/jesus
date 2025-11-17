@@ -19,7 +19,7 @@ $listaCategorias = $categoriaObj->showCategorias();
 
 $editorialObj = new Editoriales();
 //listar todas las categorias para cargar en el select
-$listaEditoriales = $editorialesObj->showEditoriales();
+$listaEditoriales = $editorialObj->showEditoriales();
 
 $libroObj = new Libros();
 $listaLibros = $libroObj->getAll(); //para rellenar la tabla
@@ -67,13 +67,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
     $id_categoria = $_POST['categoria'];
     $fecha = $_POST['fecha'];
     $portada = $_POST['portada']; //name del formulario
-    $id_editorial = $_POST['id_editorial'];
+    $id_editorial = $_POST['editorial'];
 
 
     if($accion === "crear"){
-        $libroObj->insertarLibro($titulo,$autor,$id_categoria,$precio,$fecha,$portada);
+        $libroObj->insertarLibro($titulo,$autor,$id_categoria,$precio,$fecha,$portada, $id_editorial);
     }elseif($accion === "editar" && $id){
-        $libroObj->actualizarLibro($id,$titulo,$autor,$id_categoria,$precio,$fecha,$portada);
+        $libroObj->actualizarLibro($id,$titulo,$autor,$id_categoria,$precio,$fecha,$portada, $id_editorial);
     }
     //redirección a libros.php
     header("location:libros.php");
@@ -181,10 +181,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
                         </div>
                         <div class="mb-2">
                             <label class="form-label">Categoria:</label>
-                            <select name="categoria" class="form-select">
-                                <?php foreach ($listaCategorias as $cat): ?>
-                                    <option value="<?= $cat['id_categoria'] ?>" <?= $cat['id_categoria'] == $libros['id_categoria'] ? 'selected' : '' ?> >
-                                            <?= $cat['categoria'] ?>
+                            <select name="editorial" class="form-select">
+                                <?php foreach ($listaEditoriales as $edi): ?>
+                                    <option value="<?= $edi['id_editorial'] ?>" <?= $edi['id_editorial'] == $libros['id_editorial'] ? 'selected' : '' ?> >
+                                            <?= $edi['nombre_editorial'] ?>
                                     </option>
                                 <?php endforeach ?>
                             </select>

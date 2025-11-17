@@ -95,26 +95,27 @@ class Libros
         $db->closeConnection($conn); 
     } 
 
-    public function insertarLibro($titulo,$autor,$id_categoria,$precio,$fecha,$portada){
+    public function insertarLibro($titulo,$autor,$id_categoria,$precio,$fecha,$portada, $id_editorial){
         $db = new Connection();
         $conn = $db->getConnection();
 
-        $sql="INSERT INTO libros (titulo,autor,id_categoria,precio,fecha,portada,visitas) 
-        VALUES (?,?,?,?,?,?, 0)";
+        $sql="INSERT INTO libros (titulo,autor,id_categoria,precio,fecha,portada, id_editorial, visitas) 
+        VALUES (?,?,?,?,?,?,?, 0)";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ssidss",$titulo,$autor,$id_categoria,$precio,$fecha,$portada);
+        $stmt->bind_param("ssidssi",$titulo,$autor,$id_categoria,$precio,$fecha,$portada, $id_editorial);
         $stmt->execute();
         
         $db->closeConnection($conn);
     }
 
-    public function actualizarLibro($id,$titulo,$autor,$id_categoria,$precio,$fecha,$portada){
+    public function actualizarLibro($id,$titulo,$autor,$id_categoria,$precio,$fecha,$portada, $id_editorial){
         $db = new Connection();
         $conn = $db->getConnection();
 
-        $sql="UPDATE libros SET titulo = ?,autor = ?,id_categoria = ?,precio = ?,fecha = ?,portada = ? WHERE id_libro = ? ";
+        $sql="UPDATE libros SET titulo = ?,autor = ?,id_categoria = ?,precio = ?,fecha = ?,portada = ?,id_editorial = ? 
+        WHERE id_libro = ? ";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ssidssi",$titulo,$autor,$id_categoria,$precio,$fecha,$portada,$id);
+        $stmt->bind_param("ssidssii",$titulo,$autor,$id_categoria,$precio,$fecha,$portada,$id_editorial,$id);
         $stmt->execute();
         
         $db->closeConnection($conn);
