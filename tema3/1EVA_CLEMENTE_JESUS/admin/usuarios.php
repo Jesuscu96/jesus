@@ -1,7 +1,11 @@
 <?php
 require_once "./includes/crudUsuarios.php";
-
-
+require_once "./includes/sessions.php";
+$sesion = new Sessions();
+if (!$sesion->comprobarSesion()) {
+    header("Location: ../login.php");
+    exit();
+}
 
 $usuarioObj = new Usuarios();
 //listar todos los usuarios para cargar la tabla principal
@@ -112,10 +116,11 @@ if ($accion === 'crear' || ($accion === 'editar' && $id)) {
 
                                     <a href="usuarios.php?accion=editarPass&id=<?= $user['id'] ?>"
                                         class="btn btn-sm btn-success">Editar Password</a>
-
+                                <?php if($_SESSION['usuario']['id'] !== (int)$user['id']) { ?>
                                     <a href="usuarios.php?accion=eliminar&id=<?= $user['id'] ?>"
                                         class="btn btn-sm btn-danger"
                                         onclick="return confirm('¿Estás seguro?')">Eliminar</a>
+                                <?php } ?>
                                 </td>
                             </tr>
                         <?php endforeach ?>
